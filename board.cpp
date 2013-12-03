@@ -1,7 +1,7 @@
 #include "board.h"
 
-const int DEFAULT_HEIGHT = 20;
-const int DEFAULT_WIDTH = 20;
+const int DEFAULT_HEIGHT = 4;
+const int DEFAULT_WIDTH = 4;
 
 Board::Board():height(DEFAULT_HEIGHT), width(DEFAULT_WIDTH)
 {
@@ -27,23 +27,23 @@ Board::Board(int newHeight, int newWidth)
 void Board::BlankGrid()
 {
     creatureGrid = new Creature**[height];
-    for(int i=0; i<height; i++)
+    for(int xx=0; xx<width; xx++)
     {
-        creatureGrid[i] = new Creature*[width];
+        creatureGrid[xx] = new Creature*[width];
 
-        for(int j=0; j<width; j++)
-            creatureGrid[i][j]=NULL;
+        for(int yy=0; yy<height; yy++)
+            creatureGrid[xx][yy] = NULL;
     }
 }
 
 void Board::Delete()
 {
-    for(int i=0; i<height; i++)
+    for(int xx=0; xx<width; xx++)
     {
-        for(int j=0; j<width; j++)
-            delete creatureGrid[i][j];
+        for(int yy=0; yy<height; yy++)
+            delete creatureGrid[xx][yy];
 
-        delete[] creatureGrid[i];
+        delete[] creatureGrid[xx];
     }
 
     delete[] creatureGrid;
@@ -66,10 +66,10 @@ Board& Board::operator=(const Board &other)
     height = other.height;
     BlankGrid();
 
-    for(int i=0; i<height; i++)
-        for(int j=0; j<width; j++)
+    for(int xx=0; xx<width; xx++)
+        for(int yy=0; yy<height; yy++)
         {
-            *creatureGrid[i][j] = other.creatureGrid[i][j]->Clone();
+            creatureGrid[xx][yy] = other.creatureGrid[xx][yy]->Clone();
         }
 
     return *this;
@@ -80,11 +80,14 @@ Board::~Board()
     Delete();
 }
 
-// This would be better if it returned a reference...but this would cause crash if that element was NULL ptr
-// need to think of solution to this.
-Creature* Board::Get(int h, int w)
+Creature*& Board::Get(int x, int y)
 {
-    return creatureGrid[h][w];
+    if(!IsValid(x,y))
+    {
+        cout<<"Error: Board::Get() called with bad x & y...\n\n";
+        exit(1);
+    }
+    return creatureGrid[x][y];
 }
 
 int Board::Height()
@@ -99,13 +102,48 @@ int Board::Width()
 
 void Board::Print()
 {
-    for(int i=0; i<height; i++)
+    int zzMax = width*2+1;
+    for(int zz=0; zz<zzMax; zz++)
+        cout<<"-";
+    cout<<endl;
+
+    for(int yy=0; yy<height; yy++)
     {
         cout<<'|';
-        for(int j=0; j<width; j++)
+        for(int xx=0; xx<width; xx++)
         {
-            cout<<*creatureGrid[i][j]<<'|';
+            if(creatureGrid[xx][yy]==NULL)
+                cout<<" |";
+            else
+                cout<<*creatureGrid[xx][yy]<<'|';
         }
+
         cout<<endl;
+        for(int zz=0; zz<zzMax; zz++)
+            cout<<"-";
+        cout<<endl;
+    }
+}
+
+bool Board::IsValid(int x, int y)
+{
+    return x>=0 && x<width && y>=0 && y<height;
+}
+
+bool Board::IsOccupied(int x, int y)
+{
+    if(!IsValid(x,y))
+    {
+        cout<<"Error: Board::IsOccupied() called on bad x & y...\n\n";
+        exit(1);
+    }
+
+    if(Get(x,y)!=NULL)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }

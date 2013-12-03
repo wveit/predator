@@ -6,7 +6,9 @@
 class Prey:public Creature
 {
 public:
-    Prey();
+    Prey(int x, int y);
+    virtual ~Prey();
+
 };
 
 #endif // PREY_H

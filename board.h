@@ -7,6 +7,8 @@
 using std::cout;
 using std::endl;
 
+class Creature;
+
 class Board
 {
 public:
@@ -17,12 +19,14 @@ public:
     Board& operator=(const Board &other);
     ~Board();
 
-    Creature *Get(int h, int w);
+    Creature*& Get(int x, int y);
     int Height();
     int Width();
     void BlankGrid();
     void Delete();
     void Print();
+    bool IsValid(int x, int y);
+    bool IsOccupied(int x, int y);
 
 private:
     Creature ***creatureGrid;

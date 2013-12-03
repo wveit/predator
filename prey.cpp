@@ -1,6 +1,9 @@
 #include "prey.h"
 
-Prey::Prey()
+Prey::Prey(int x, int y) : Creature(x,y)
 {
-    creatureCode = 'q';
+    creatureCode = 'O';
 }
+
+Prey::~Prey()
+{}
