@@ -6,8 +6,9 @@
 class Prey:public Creature
 {
 public:
-    Prey(int x, int y);
+    Prey(int x, int y, int turn);
     virtual ~Prey();
+    virtual void Reproduce(Board &board, int turn);
 
 };
 

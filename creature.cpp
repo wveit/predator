@@ -1,6 +1,6 @@
 #include "creature.h"
 
-Creature::Creature(int x, int y): creatureCode('C'), coordX(x), coordY(y), turnOfLastMove(0)
+Creature::Creature(int x, int y, int turn): creatureCode('C'), coordX(x), coordY(y), turnOfLastMove(turn), turnOfLastReproduce(turn)
 {
 }
 
@@ -101,4 +101,14 @@ void Creature::SetY(int newY)
 int Creature::GetY()
 {
     return coordY;
+}
+
+void Creature::DieOrLive(Board &board, int turn)
+{
+    // Intentionally left blank for now
+}
+
+void Creature::Reproduce(Board &board, int turn)
+{
+    // Intentionally left blank for now
 }

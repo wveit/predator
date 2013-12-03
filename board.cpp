@@ -1,7 +1,7 @@
 #include "board.h"
 
-const int DEFAULT_HEIGHT = 4;
-const int DEFAULT_WIDTH = 4;
+const int DEFAULT_HEIGHT = 20;
+const int DEFAULT_WIDTH = 20;
 
 Board::Board():height(DEFAULT_HEIGHT), width(DEFAULT_WIDTH)
 {

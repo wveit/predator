@@ -48,6 +48,26 @@ void Game::Advance()
         }
     }
 
+    // Predators starve or live
+    for(int xx=0; xx<board.Width(); xx++)
+    {
+        for(int yy=0; yy<board.Height(); yy++)
+        {
+            if(board.Get(xx,yy)!=NULL && board.Get(xx,yy)->GetCode()=='X')
+                board.Get(xx,yy)->DieOrLive(board, turn);
+        }
+    }
+
+    // Every creature reproduce (if it's time), according to their rules
+    for(int xx=0; xx<board.Width(); xx++)
+    {
+        for(int yy=0; yy<board.Height(); yy++)
+        {
+            if(board.Get(xx,yy)!=NULL)
+                board.Get(xx,yy)->Reproduce(board, turn);
+        }
+    }
+
     ++turn;
 }
 
@@ -71,7 +91,7 @@ void Game::RandomPopulate()
             randY = rand()%board.Height();
             if(!board.IsOccupied(randX, randY))
             {
-                board.Get(randX, randY) = new Predator(randX, randY);
+                board.Get(randX, randY) = new Predator(randX, randY, turn);
                 unplaced = false;
             }
         }
@@ -87,7 +107,7 @@ void Game::RandomPopulate()
             randY = rand()%board.Height();
             if(!board.IsOccupied(randX, randY))
             {
-                board.Get(randX, randY) = new Prey(randX, randY);
+                board.Get(randX, randY) = new Prey(randX, randY, turn);
                 unplaced = false;
             }
         }

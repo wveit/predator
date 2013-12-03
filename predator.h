@@ -6,12 +6,13 @@
 class Predator:public Creature
 {
 public:
-    Predator(int x, int y);
+    Predator(int x, int y, int turn);
     virtual ~Predator();
 
-    // Need to write these functions
     void Eat(Board &board, int turn);
     virtual void Move(Board &board, int turn);
+    virtual void DieOrLive(Board &board, int turn);
+    virtual void Reproduce(Board &board, int turn);
 
 private:
     int turnOfLastMeal;

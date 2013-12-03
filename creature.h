@@ -11,7 +11,7 @@ class Board;
 class Creature
 {
 public:
-    Creature(int x, int y);
+    Creature(int x, int y, int turn);
     virtual ~Creature();
 
     virtual Creature* Clone() const;
@@ -24,13 +24,15 @@ public:
     void SetY(int newY);
     int GetY();
     void NewCoords(int &newX, int &newY, int tryDirection);
+    virtual void DieOrLive(Board &board, int turn);
+    virtual void Reproduce(Board &board, int turn);
 
 protected:
     char creatureCode;
     int coordX;
     int coordY;
     int turnOfLastMove;
-
+    int turnOfLastReproduce;
 private:
 
 };
